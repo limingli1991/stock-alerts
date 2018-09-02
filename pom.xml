@@ -8,8 +8,8 @@
   <name>Stock Alerts</name>
   <url>http://maven.apache.org</url>
   <properties>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
   <dependencies>
     <dependency>
@@ -137,7 +137,21 @@
 	    <artifactId>jgap</artifactId>
 	    <version>3.6.2</version>
 	</dependency>
-    
+
+      <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-sns -->
+      <dependency>
+          <groupId>com.amazonaws</groupId>
+          <artifactId>aws-java-sdk-sns</artifactId>
+          <version>1.11.401</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ses -->
+      <dependency>
+          <groupId>com.amazonaws</groupId>
+          <artifactId>aws-java-sdk-ses</artifactId>
+          <version>1.11.401</version>
+      </dependency>
+
   </dependencies>
   <build>
     <finalName>stock-alerts</finalName>

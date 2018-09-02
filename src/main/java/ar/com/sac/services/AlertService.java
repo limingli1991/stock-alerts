@@ -118,12 +118,12 @@ public class AlertService {
    private void processAlert( Alert alert, List<Notification> notifications ) {
       try {
          Operator operator = expressionService.parseAlertExpression( alert.getExpression(), alert, stockService );
-         if(operator.evaluate()){
+//         if(operator.evaluate()){
             Notification notification = new Notification();
             notification.setCreationDate( new Date() );
             notification.setAlert( alert );
             notifications.add( notification  );
-         }
+//         }
       } catch (Exception e) {
          Notification notification = new Notification();
          notification.setCreationDate( new Date() );
