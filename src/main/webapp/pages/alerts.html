@@ -58,8 +58,8 @@
                header.innerHTML = "Current Alerts";
                resultDiv.appendChild( header );
         	    	dataTable = createTable( JSON.parse(results), "alertsDiv", 
-                	    	["id", "active", "expression", "name", "description", "sendEmail", "symbol", "opposedAlertId"],
-                	    	["Id", "Active", "Expression", "Name", "Description", "Send Email", "Symbol", "Opposed Alert Id"],
+                	    	["id", "active", "expression", "name", "description", "sendEmail", "symbol", "opposedAlertId","alarming"],
+                	    	["Id", "Active", "Expression", "Name", "Description", "Send Email", "Symbol", "Opposed Alert Id", "Alarming"],
                 	    	function( data ){
         	    		         completeForm(data);
         	    		      }, 
@@ -78,6 +78,7 @@
         	   document.getElementById("sendEmailCheckbox").checked = (alert[5] == "true"? true : false);
         	   document.getElementById("tickerSymbol").value = alert[6];
         	   document.getElementById("opposedAlertId").value = alert[7];
+        	   document.getElementById("alarming").value = alert[8];
         	   //revalidate form
         	   $("#alertForm").validator('validate');
          }
@@ -137,8 +138,8 @@
                     alerts.push( results[i].alert );
                  }
                  createTable( alerts , "processResult", 
-                           ["id", "expression", "name", "description", "sendEmail", "symbol", "opposedAlertId"],
-                           ["Id", "Expression", "Name", "Description", "Send Email", "Symbol", "Opposed Alert Id"]);
+                           ["id", "expression", "name", "description", "sendEmail", "symbol", "opposedAlertId","alarming"],
+                           ["Id", "Expression", "Name", "Description", "Send Email", "Symbol", "Opposed Alert Id","Alarming"]);
          }
 
 

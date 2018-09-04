@@ -1,18 +1,19 @@
 package ar.com.sac.services;
 
 
+import ar.com.sac.model.EmailRecipient;
+import ar.com.sac.services.dao.EmailRecipientDAO;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @PropertySource("classpath:application.properties")
@@ -56,32 +57,29 @@ public class EmailService {
     @Value("${mail.sns.topicArn}")
     private String topicArn;
 
+    @Autowired
+    private EmailRecipientDAO emailRecipientDAO;
+
     private AmazonSimpleEmailService sesClient;
 
     public EmailService() {
         sesClient = AmazonSimpleEmailServiceClientBuilder.defaultClient();
-        to = Stream.of("allenli0601@gmail.com", "limingli991@gmail.com").collect(Collectors.toList());
     }
 
-    public void generateAndSendEmail(String subject, String body) throws AddressException, MessagingException {
+    public void generateAndSendEmail(String subject, String body) throws MessagingException {
+        to = emailRecipientDAO.getAllEmailRecipients().stream().map(EmailRecipient::getEmail).collect(Collectors.toList());
         SendEmailRequest request = new SendEmailRequest()
-                .withDestination(
-                        new Destination().withToAddresses(to)
-                )
+                .withDestination(new Destination().withToAddresses(to))
                 .withMessage(
                         new Message()
-                                .withBody(
-                                        new Body().withHtml(new Content().withCharset("UTF-8").withData(body))
-                                )
-                                .withSubject(
-                                        new Content().withCharset("UTF-8").withData(subject)
-                                )
+                                .withBody(new Body().withHtml(new Content().withCharset("UTF-8").withData(body)))
+                                .withSubject(new Content().withCharset("UTF-8").withData(subject))
                 )
                 .withSource(from);
         sesClient.sendEmail(request);
     }
 
-    public void generateAndSendTestEmail() throws AddressException, MessagingException {
-        generateAndSendEmail("Stock Alert", "Test email by Stock Alerts.<br><br>Regards, <br>Sergio Cormio");
+    public void generateAndSendTestEmail() throws MessagingException {
+        generateAndSendEmail("Stock Alert", "Test email by Stock Alerts.");
     }
 }
