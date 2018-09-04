@@ -163,10 +163,6 @@ public class AlertService {
     @Transactional
     public void saveOrUpdateAlert(Alert newAlert) {
         normalizeId(newAlert);
-        Alert existingAlert = getAlertById(newAlert.getId());
-        if (existingAlert != null) {
-            newAlert.setAlarming(existingAlert.getAlarming());
-        }
         alertDAO.update(newAlert);
     }
 
